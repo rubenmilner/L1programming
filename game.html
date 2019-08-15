@@ -19,13 +19,24 @@
         setInterval(mainloop, 1000 / 50);
 
 
+        var PlayerXpos = 0;
+        var PlayerYpos = 0;
+        var PlayerXspeed = 8;
+        var PlayerYspeed = 8;
+        var PlayerSize = 10;
 
-
+ 
 
         function mainloop() { // loop runs code 50 times per secound
             colorRect(0, 0, canvas.width, canvas.height, 'black'); //bg
             colorRect(PlayerXpos, PlayerYpos, PlayerSize, PlayerSize, 'red')
+
+           
         }
+
+
+
+
 
 
 
