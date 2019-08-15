@@ -1,0 +1,44 @@
+<!doctype html>
+
+<head>
+    <title>Canvas</title>
+</head>
+
+<body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <script>
+        var canvas, canvasContext;
+
+        window.onload = function() {
+            canvas = document.getElementById('gameCanvas');
+            canvasContext = canvas.getContext('2d');
+
+
+        }
+        setInterval(mainloop, 1000 / 50);
+
+
+
+
+
+        function mainloop() { // loop runs code 50 times per secound
+            colorRect(0, 0, canvas.width, canvas.height, 'black'); //bg
+            colorRect(PlayerXpos, PlayerYpos, PlayerSize, PlayerSize, 'red')
+        }
+
+
+
+
+
+        //func to draw colored rects on canvas
+        function colorRect(x, y, w, h, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.fillRect(x, y, w, h);
+
+
+        }
+
+    </script>
+
+</body>
