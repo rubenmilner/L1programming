@@ -5,42 +5,103 @@
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-
+    <canvas id="gameCanvas" width="400" height="400"></canvas> 
+    
     <script>
         var canvas, canvasContext;
 
         window.onload = function() {
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
+                
+            document.addEventListener('keydown' , keyPressed)
+            document.addEventListener('keyup' , keyReleased)
 
-
-        }
+        
         setInterval(mainloop, 1000 / 50);
+        }
+        // player variables
+        var playerXpos = 10;
+        var playerYpos = 10;
+        var playerXspeed = 5;
+        var playerYspeed = 5;
+        var playerSize = 10;
+
+        const W_KEY = 87;
+        const A_KEY = 65;
+        const S_KEY = 83;
+        const D_KEY = 68;
+        var WKeyPressed = false;
+        var AKeyPressed = false;
+        var SKeyPressed = false;
+        var DKeyPressed = false;
 
 
-        var PlayerXpos = 0;
-        var PlayerYpos = 0;
-        var PlayerXspeed = 8;
-        var PlayerYspeed = 8;
-        var PlayerSize = 10;
-
- 
 
         function mainloop() { // loop runs code 50 times per secound
             colorRect(0, 0, canvas.width, canvas.height, 'black'); //bg
-            colorRect(PlayerXpos, PlayerYpos, PlayerSize, PlayerSize, 'red')
+            colorRect(playerXpos, playerYpos, playerSize, playerSize, 'red')
 
-           
+            playermove();
         }
 
 
 
+        function keyPressed(evt) {
+            if (evt.keyCode == W_KEY) {
+                WKeyPressed = true;
+            }
+            if (evt.keyCode == A_KEY) {
+                AKeyPressed = true;
+            }
+            if (evt.keyCode == S_KEY) {
+                SKeyPressed = true;
+            }
+            if (evt.keyCode == D_KEY) {
+                DKeyPressed = true;
+            }
+        }
+
+
+        function keyReleased(evt) {
+            if (evt.keyCode == W_KEY) {
+                WKeyPressed = false;
+            }
+            if (evt.keyCode == A_KEY) {
+                AKeyPressed = false;
+            }
+            if (evt.keyCode == S_KEY) {
+                SKeyPressed = false;
+            }
+            if (evt.keyCode == D_KEY) {
+                DKeyPressed = false;
+            }
+        }
 
 
 
+        function playermove() {
+            if (DKeyPressed && playerXpos < canvas.width - playerSize) {
+                playerXpos += playerXspeed;
+            }
 
 
+            if (AKeyPressed) {
+                playerXpos -= playerXspeed;
+                if (playerXpos < 0 - playerSize) {
+                    playerXpos = canvas.width - playerSize / 2;
+                }
+            }
+            
+            if (WKeyPressed){
+                playerYpos -= playerYspeed;
+            }
+        
+        
+            if (SKeyPressed){
+                playerYpos += playerXspeed;
+            }
+        }
 
         //func to draw colored rects on canvas
         function colorRect(x, y, w, h, c) {
