@@ -5,28 +5,36 @@
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="400" height="400"></canvas> 
-    
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
     <script>
         var canvas, canvasContext;
 
         window.onload = function() {
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
-                
-            document.addEventListener('keydown' , keyPressed)
-            document.addEventListener('keyup' , keyReleased)
 
-        
-        setInterval(mainloop, 1000 / 50);
+            document.addEventListener('keydown', keyPressed);
+            document.addEventListener('keyup', keyReleased);
+
+
+            setInterval(mainloop, 1000 / 50);
         }
         // player variables
         var playerXpos = 10;
         var playerYpos = 10;
         var playerXspeed = 5;
         var playerYspeed = 5;
-        var playerSize = 10;
+        var playerSize = 20;
 
+        // object variables
+        var objectXpos = 10;
+        var objectYpos = 10;
+        var objectXspeed = 5;
+        var objectYspeed = 5;
+        var objectSize = 10;
+        
+        // key codes
         const W_KEY = 87;
         const A_KEY = 65;
         const S_KEY = 83;
@@ -43,6 +51,7 @@
             colorRect(playerXpos, playerYpos, playerSize, playerSize, 'red')
 
             playermove();
+            objectdraw();
         }
 
 
@@ -79,29 +88,47 @@
         }
 
 
-
+            //player movement
         function playermove() {
             if (DKeyPressed && playerXpos < canvas.width - playerSize) {
                 playerXpos += playerXspeed;
             }
 
 
-            if (AKeyPressed) {
+            if (AKeyPressed && playerXpos >0)  {
                 playerXpos -= playerXspeed;
                 if (playerXpos < 0 - playerSize) {
                     playerXpos = canvas.width - playerSize / 2;
                 }
             }
-            
-            if (WKeyPressed){
+
+            if (WKeyPressed && playerYpos >0) {
                 playerYpos -= playerYspeed;
             }
-        
-        
-            if (SKeyPressed){
+
+
+            if (SKeyPressed && playerYpos < canvas.height - playerSize) {
                 playerYpos += playerXspeed;
+
+                
+
+                }
             }
+        
+
+        function objectdraw() {
+            object.forEach(function(brick, index, array) {
+                colorRect(object.objectXpos, object.objectYpos, object.objectSize, object.objectSize, 'grey');
+            })
         }
+
+        function objectmove() {
+            object.objectXpos += object.objectXspeed;
+            object.objectYpos += object.objectYspeed;
+            
+
+        }
+
 
         //func to draw colored rects on canvas
         function colorRect(x, y, w, h, c) {
@@ -111,6 +138,7 @@
 
         }
 
+        
     </script>
 
 </body>
