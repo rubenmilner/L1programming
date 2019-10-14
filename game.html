@@ -27,13 +27,13 @@
         var playerYspeed = 5;
         var playerSize = 20;
 
-        // object variables
-        var objectXpos = 10;
-        var objectYpos = 10;
-        var objectXspeed = 5;
-        var objectYspeed = 5;
-        var objectSize = 10;
-        
+    // object variables
+       var objectXpos = 10;
+       var objectYpos = 10;
+       var objectXspeed = 5;
+       var objectYspeed = 5;
+       var objectSize = 20;
+
         // key codes
         const W_KEY = 87;
         const A_KEY = 65;
@@ -48,7 +48,9 @@
 
         function mainloop() { // loop runs code 50 times per secound
             colorRect(0, 0, canvas.width, canvas.height, 'black'); //bg
-            colorRect(playerXpos, playerYpos, playerSize, playerSize, 'red')
+            colorRect(playerXpos, playerYpos, playerSize, playerSize, 'red');
+            colorRect(objectXpos, objectYpos, objectSize, objectSize, 'orange');
+            
 
             playermove();
             objectdraw();
@@ -88,21 +90,21 @@
         }
 
 
-            //player movement
+        //player movement
         function playermove() {
             if (DKeyPressed && playerXpos < canvas.width - playerSize) {
                 playerXpos += playerXspeed;
             }
 
 
-            if (AKeyPressed && playerXpos >0)  {
+            if (AKeyPressed && playerXpos > 0) {
                 playerXpos -= playerXspeed;
                 if (playerXpos < 0 - playerSize) {
                     playerXpos = canvas.width - playerSize / 2;
                 }
             }
 
-            if (WKeyPressed && playerYpos >0) {
+            if (WKeyPressed && playerYpos > 0) {
                 playerYpos -= playerYspeed;
             }
 
@@ -110,24 +112,43 @@
             if (SKeyPressed && playerYpos < canvas.height - playerSize) {
                 playerYpos += playerXspeed;
 
-                
 
-                }
+
             }
+        }
         
+        
+
 
         function objectdraw() {
             object.forEach(function(brick, index, array) {
-                colorRect(object.objectXpos, object.objectYpos, object.objectSize, object.objectSize, 'grey');
-            })
+                colorRect(object.objectXpos, object.objectYpos, object.objectSize, object.objectSize, 'orange');
+            });
         }
-
+//
         function objectmove() {
+            object.forEach(function(brick, index, array) {
             object.objectXpos += object.objectXspeed;
             object.objectYpos += object.objectYspeed;
+            object.objectSize = math.floor(math.random()( 10 - 5 ) + 5)
             
-
+                
+            object.objectYpos
+            });
         }
+//        
+//        function randObject(){
+//            
+//            var newObject = {
+//            objectsize : objectsize,
+//            objectYos : objectYpos,
+//            objectXpos : objectXpos,
+//            objectYspeed : objectYspeed
+//            
+//                
+//            }
+//       }
+        
 
 
         //func to draw colored rects on canvas
@@ -138,7 +159,6 @@
 
         }
 
-        
     </script>
 
 </body>
