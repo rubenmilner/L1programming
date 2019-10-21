@@ -22,16 +22,18 @@
         }
 
 
-           var name = ' ';
-        while (name == ' ' || name == null) {
-            name = prompt('what is your name?', 'player') || ' ';
-        }
 
-          var difficulty = ' ';
-        while (difficulty != 'easy' && difficulty != 'hard') {
-            difficulty = prompt('Hi ' + name + ', What difficulty would you like? (easy or hard)',
-                'easy').toLowerCase()
-        }
+
+//        var name = ' ';
+//        while (name == ' ' || name == null) {
+//            name = prompt('what is your name?', 'player') || ' ';
+//        }
+//
+//        var difficulty = ' ';
+//        while (difficulty != 'easy' && difficulty != 'hard') {
+//            difficulty = prompt('Hi ' + name + ', What difficulty would you like? (easy or hard)',
+//                'easy').toLowerCase()
+//        }
 
 
 
@@ -40,7 +42,7 @@
 
         // player variables
         var playerXpos = 10;
-        var playerYpos = 10;
+        var playerYpos = 100;
         var playerXspeed = 5;
         var playerYspeed = 5;
         var playerSize = 20;
@@ -52,6 +54,8 @@
         var objectYspeed = 5;
         var objectSize = 20;
 
+        var objects = [];
+
         // key codes
         const W_KEY = 87;
         const A_KEY = 65;
@@ -62,16 +66,24 @@
         var SKeyPressed = false;
         var DKeyPressed = false;
 
+        var setUp = true;
 
 
         function mainloop() { // loop runs code 50 times per secound
             colorRect(0, 0, canvas.width, canvas.height, 'black'); //bg
             colorRect(playerXpos, playerYpos, playerSize, playerSize, 'red');
-            colorRect(objectXpos, objectYpos, objectSize, objectSize, 'orange');
+            //            colorRect(objectXpos, objectYpos, objectSize, objectSize, 'orange');
 
-
+            if(setUp){
+               for (i = 0; i < totalObjects; i++) {
+                    randObject();
+                }   
+                setUp = false;
+            }
+            
             playermove();
             objectdraw();
+            objectmove();
         }
 
 
@@ -139,33 +151,55 @@
 
 
         function objectdraw() {
-            object.forEach(function(brick, index, array) {
-                colorRect(object.objectXpos, object.objectYpos, object.objectSize, object.objectSize, 'orange');
+            objects.forEach(function(brick, i) {
+                colorRect(brick.objectXpos, brick.objectYpos, brick.objectSize, brick.objectSize, 'green');
             });
         }
+
         //
         function objectmove() {
-            object.forEach(function(brick, index, array) {
-                object.objectXpos += object.objectXspeed;
-                object.objectYpos += object.objectYspeed;
-                object.objectSize = math.floor(math.random()(10 - 5) + 5)
+            objects.forEach(function(brick, index, array) {
+                brick.objectXpos += brick.objectXspeed;
+                brick.objectYpos += brick.objectYspeed;
+
+                if (brick.objectXpos > canvas.width - brick.objectXspeed) {
+                    brick.objectXspeed *= -1;
+                }
+
+                if (brick.objectXpos < 0) {
+                    brick.objectXspeed *= -1;
+                }
+
+                // object variables
 
 
-                object.objectYpos
             });
+
+
         }
-        //        
-        //        function randObject(){
-        //            
-        //            var newObject = {
-        //            objectsize : objectsize,
-        //            objectYos : objectYpos,
-        //            objectXpos : objectXpos,
-        //            objectYspeed : objectYspeed
-        //            
-        //                
-        //            }
-        //       }
+
+        var totalObjects = 12;
+
+        
+
+
+        function randObject() {
+            var objectSize = 20;
+            var objectXpos = Math.floor(Math.random()*(canvas.width - objectSize));
+            var objectYpos = 10;
+            var objectXspeed = 5;
+            var objectYspeed = 5;
+
+            var newObject = {
+                objectXpos: objectXpos,
+                objectYpos: objectYpos,
+                objectSize: objectSize,
+                objectYspeed: objectYspeed,
+                objectXspeed: objectXspeed
+
+            }
+            objects.push(newObject);
+        }
 
 
 
