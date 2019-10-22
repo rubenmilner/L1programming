@@ -24,16 +24,16 @@
 
 
 
-//        var name = ' ';
-//        while (name == ' ' || name == null) {
-//            name = prompt('what is your name?', 'player') || ' ';
-//        }
-//
-//        var difficulty = ' ';
-//        while (difficulty != 'easy' && difficulty != 'hard') {
-//            difficulty = prompt('Hi ' + name + ', What difficulty would you like? (easy or hard)',
-//                'easy').toLowerCase()
-//        }
+        //        var name = ' ';
+        //        while (name == ' ' || name == null) {
+        //            name = prompt('what is your name?', 'player') || ' ';
+        //        }
+        //
+        //        var difficulty = ' ';
+        //        while (difficulty != 'easy' && difficulty != 'hard') {
+        //            difficulty = prompt('Hi ' + name + ', What difficulty would you like? (easy or hard)',
+        //                'easy').toLowerCase()
+        //        }
 
 
 
@@ -74,13 +74,13 @@
             colorRect(playerXpos, playerYpos, playerSize, playerSize, 'red');
             //            colorRect(objectXpos, objectYpos, objectSize, objectSize, 'orange');
 
-            if(setUp){
-               for (i = 0; i < totalObjects; i++) {
+            if (setUp) {
+                for (i = 0; i < totalObjects; i++) {
                     randObject();
-                }   
+                }
                 setUp = false;
             }
-            
+
             playermove();
             objectdraw();
             objectmove();
@@ -123,24 +123,24 @@
         //player movement
         function playermove() {
             if (DKeyPressed && playerXpos < canvas.width - playerSize) {
-                playerXpos += playerXspeed;
+                playerXpos += playerXspeed; //player moves right
             }
 
 
             if (AKeyPressed && playerXpos > 0) {
                 playerXpos -= playerXspeed;
                 if (playerXpos < 0 - playerSize) {
-                    playerXpos = canvas.width - playerSize / 2;
+                    playerXpos = canvas.width - playerSize / 2; // player moves left
                 }
             }
 
             if (WKeyPressed && playerYpos > 0) {
-                playerYpos -= playerYspeed;
+                playerYpos -= playerYspeed; // player moves up
             }
 
 
             if (SKeyPressed && playerYpos < canvas.height - playerSize) {
-                playerYpos += playerXspeed;
+                playerYpos += playerYspeed; //player moves down
 
 
 
@@ -156,21 +156,27 @@
             });
         }
 
-        //
+        
         function objectmove() {
             objects.forEach(function(brick, index, array) {
                 brick.objectXpos += brick.objectXspeed;
                 brick.objectYpos += brick.objectYspeed;
 
-                if (brick.objectXpos > canvas.width - brick.objectXspeed) {
+//                if (brick.objectXpos > canvas.width - brick.objectXspeed) {
                     brick.objectXspeed *= -1;
+//                }
+
+//                if (brick.objectXpos < 0) {
+//                    brick.objectXspeed *= -1;
+//                }
+
+                if (brick.objectYpos > canvas.height) {
+                    brick.objectYpos = 0;                //makes enemies go back to the top of the screen
+                    brick.objectXpos = Math.floor(Math.random() * (canvas.width - objectSize)); 
                 }
 
-                if (brick.objectXpos < 0) {
-                    brick.objectXspeed *= -1;
-                }
 
-                // object variables
+
 
 
             });
@@ -178,17 +184,19 @@
 
         }
 
-        var totalObjects = 12;
+        var totalObjects = 10;
 
-        
+
 
 
         function randObject() {
-            var objectSize = 20;
-            var objectXpos = Math.floor(Math.random()*(canvas.width - objectSize));
+
+            // object variables
+            var objectSize = Math.floor(Math.random() * ( 40 - 10) + 10);
+            var objectXpos = Math.floor(Math.random() * (canvas.width - objectSize));
             var objectYpos = 10;
-            var objectXspeed = 5;
-            var objectYspeed = 5;
+            var objectXspeed = Math.floor(Math.random() * (15 - 5) + 5);
+            var objectYspeed = Math.floor(Math.random() * (10 - 5) + 5);
 
             var newObject = {
                 objectXpos: objectXpos,
