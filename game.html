@@ -45,7 +45,7 @@
         var playerYpos = 100;
         var playerXspeed = 5;
         var playerYspeed = 5;
-        var playerSize = 20;
+        const PLAYERSIZE = 20;
 
         // object variables
         var objectXpos = 10;
@@ -67,24 +67,46 @@
         var DKeyPressed = false;
 
         var setUp = true;
+        var score = 0;
+        var deaths = 0;
+        var gameRun = true;
 
 
         function mainloop() { // loop runs code 50 times per secound
-            colorRect(0, 0, canvas.width, canvas.height, 'black'); //bg
-            colorRect(playerXpos, playerYpos, playerSize, playerSize, 'red');
-            //            colorRect(objectXpos, objectYpos, objectSize, objectSize, 'orange');
+            if (gameRun = true) {
 
-            if (setUp) {
-                for (i = 0; i < totalObjects; i++) {
-                    randObject();
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); //bg
+                colorRect(playerXpos, playerYpos, PLAYERSIZE, PLAYERSIZE, 'red');
+                //            colorRect(objectXpos, objectYpos, objectSize, objectSize, 'orange');
+
+
+
+                drawText('score: ' + score, 0, 20, '20px Ariel', 'white');
+                drawText('deaths: ' + deaths, canvas.width - 100, 50, '20px Ariel', 'red');
+
+                if (setUp) {
+                    for (i = 0; i < totalObjects; i++) {
+                        randObject();
+                    }
+                    setUp = false;
                 }
-                setUp = false;
-            }
 
-            playermove();
-            objectdraw();
-            objectmove();
-        }
+                playermove();
+                objectdraw();
+                objectmove();
+
+
+                if (deaths >= 10) {
+                    gameRun = false;
+
+                }
+                    else {
+                        colorRect(0, 0, canvas.width, canvas.height, 'black');
+                        drawText('Game over your score was: ' + score, 2, canvas.height / 2, '30px Ariel', 'white');
+
+                    }
+            }
+        }   
 
 
 
@@ -122,15 +144,15 @@
 
         //player movement
         function playermove() {
-            if (DKeyPressed && playerXpos < canvas.width - playerSize) {
+            if (DKeyPressed && playerXpos < canvas.width - PLAYERSIZE) {
                 playerXpos += playerXspeed; //player moves right
             }
 
 
             if (AKeyPressed && playerXpos > 0) {
                 playerXpos -= playerXspeed;
-                if (playerXpos < 0 - playerSize) {
-                    playerXpos = canvas.width - playerSize / 2; // player moves left
+                if (playerXpos < 0 - PLAYERSIZE) {
+                    playerXpos = canvas.width - PLAYERSIZE / 2; // player moves left
                 }
             }
 
@@ -139,7 +161,7 @@
             }
 
 
-            if (SKeyPressed && playerYpos < canvas.height - playerSize) {
+            if (SKeyPressed && playerYpos < canvas.height - PLAYERSIZE) {
                 playerYpos += playerYspeed; //player moves down
 
 
@@ -156,23 +178,30 @@
             });
         }
 
-        
+
         function objectmove() {
             objects.forEach(function(brick, index, array) {
                 brick.objectXpos += brick.objectXspeed;
                 brick.objectYpos += brick.objectYspeed;
 
-//                if (brick.objectXpos > canvas.width - brick.objectXspeed) {
-                    brick.objectXspeed *= -1;
-//                }
+                //                                if (brick.objectXpos > canvas.width - brick.objectXspeed) {
+                //                                  brick.objectXspeed *= 1;
+                //                                }
+                //
+                //                                if (brick.objectXpos < 0) {
+                //                                    brick.objectXspeed *= -1;
+                //                                }
+                //                
+                //                                
+                if (brick.objectYpos > 0) {
+                    brick.objectYspeed *= 1;
+                }
 
-//                if (brick.objectXpos < 0) {
-//                    brick.objectXspeed *= -1;
-//                }
+
 
                 if (brick.objectYpos > canvas.height) {
-                    brick.objectYpos = 0;                //makes enemies go back to the top of the screen
-                    brick.objectXpos = Math.floor(Math.random() * (canvas.width - objectSize)); 
+                    brick.objectYpos = 0; //makes enemies go back to the top of the screen
+                    brick.objectXpos = Math.floor(Math.random() * (canvas.width - objectSize));
                 }
 
 
@@ -192,11 +221,12 @@
         function randObject() {
 
             // object variables
-            var objectSize = Math.floor(Math.random() * ( 40 - 10) + 10);
+            var objectSize = Math.floor(Math.random() * (40 - 10) + 10);
             var objectXpos = Math.floor(Math.random() * (canvas.width - objectSize));
-            var objectYpos = 10;
+            var objectYpos = 0 - objectSize + Math.floor(Math.random() * (5 - 30) + 30);
             var objectXspeed = Math.floor(Math.random() * (15 - 5) + 5);
             var objectYspeed = Math.floor(Math.random() * (10 - 5) + 5);
+
 
             var newObject = {
                 objectXpos: objectXpos,
@@ -217,6 +247,13 @@
             canvasContext.fillRect(x, y, w, h);
 
 
+        }
+
+
+        function drawText(msg, x, y, f, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.font = f;
+            canvasContext.fillText(msg, x, y);
         }
 
     </script>
