@@ -24,16 +24,16 @@
 
 
 
-        //        var name = ' ';
-        //        while (name == ' ' || name == null) {
-        //            name = prompt('what is your name?', 'player') || ' ';
-        //        }
-        //
-        //        var difficulty = ' ';
-        //        while (difficulty != 'easy' && difficulty != 'hard') {
-        //            difficulty = prompt('Hi ' + name + ', What difficulty would you like? (easy or hard)',
-        //                'easy').toLowerCase()
-        //        }
+                var name = ' ';
+                while (name == ' ' || name == null) {
+                    name = prompt('what is your name?', 'player') || ' ';
+                }
+        
+                var difficulty = ' ';
+                while (difficulty != 'easy' && difficulty != 'hard') {
+                    difficulty = prompt('Hi ' + name + ', What difficulty would you like? (easy or hard)',
+                        'easy').toLowerCase()
+                }
 
 
 
@@ -68,7 +68,7 @@
 
         var setUp = true;
         var score = 0;
-        var deaths = 0;
+//        var deaths = 0;
         var gameRun = true;
 
 
@@ -82,11 +82,15 @@
 
 
                 drawText('score: ' + score, 0, 20, '20px Ariel', 'white');
-                drawText('deaths: ' + deaths, canvas.width - 100, 50, '20px Ariel', 'red');
+                
+                
+//                drawText('deaths: ' + deaths, canvas.width - 100, 20, '20px Ariel', 'red');
 
                 if (setUp) {
                     for (i = 0; i < totalObjects; i++) {
                         randObject();
+                        playerYpos = canvas.height - PLAYERSIZE;
+                        playerXpos = canvas.width / 2;
                     }
                     setUp = false;
                 }
@@ -96,20 +100,21 @@
                 objectmove();
 
 
-                if (deaths >= 10) {
+                if (deaths <= 10) {
                     gameRun = false;
 
                 }
                     else {
                         colorRect(0, 0, canvas.width, canvas.height, 'black');
                         drawText('Game over your score was: ' + score, 2, canvas.height / 2, '30px Ariel', 'white');
+                        drawText('name: ' + name, 0, 40, '20px Ariel', 'white');
 
                     }
             }
-        }   
+        }
 
 
-
+            //player movement
         function keyPressed(evt) {
             if (evt.keyCode == W_KEY) {
                 WKeyPressed = true;
@@ -125,7 +130,7 @@
             }
         }
 
-
+                //player not moving
         function keyReleased(evt) {
             if (evt.keyCode == W_KEY) {
                 WKeyPressed = false;
@@ -181,18 +186,9 @@
 
         function objectmove() {
             objects.forEach(function(brick, index, array) {
-                brick.objectXpos += brick.objectXspeed;
                 brick.objectYpos += brick.objectYspeed;
 
-                //                                if (brick.objectXpos > canvas.width - brick.objectXspeed) {
-                //                                  brick.objectXspeed *= 1;
-                //                                }
-                //
-                //                                if (brick.objectXpos < 0) {
-                //                                    brick.objectXspeed *= -1;
-                //                                }
-                //                
-                //                                
+                                        
                 if (brick.objectYpos > 0) {
                     brick.objectYspeed *= 1;
                 }
@@ -201,11 +197,9 @@
 
                 if (brick.objectYpos > canvas.height) {
                     brick.objectYpos = 0; //makes enemies go back to the top of the screen
+                    score++; 
                     brick.objectXpos = Math.floor(Math.random() * (canvas.width - objectSize));
                 }
-
-
-
 
 
             });
@@ -213,8 +207,7 @@
 
         }
 
-        var totalObjects = 10;
-
+        var totalObjects = 5;
 
 
 
@@ -223,9 +216,10 @@
             // object variables
             var objectSize = Math.floor(Math.random() * (40 - 10) + 10);
             var objectXpos = Math.floor(Math.random() * (canvas.width - objectSize));
-            var objectYpos = 0 - objectSize + Math.floor(Math.random() * (5 - 30) + 30);
+            var objectYpos = 0;
             var objectXspeed = Math.floor(Math.random() * (15 - 5) + 5);
             var objectYspeed = Math.floor(Math.random() * (10 - 5) + 5);
+         
 
 
             var newObject = {
